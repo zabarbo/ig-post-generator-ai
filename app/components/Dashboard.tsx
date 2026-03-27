@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { Camera, Sparkles, History, Copy, Check, ChevronRight, X, Layout, Zap, Flame, Star, Settings2, Calendar as CalendarIcon, Clock, BarChart3 } from "lucide-react";
+import { Camera, Sparkles, History, Copy, Check, ChevronRight, X, Layout, Zap, Flame, Star, Settings2, Calendar as CalendarIcon, Clock, BarChart3, Shirt, Footprints, Droplets, Watch, Tag, Cpu } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { createClient } from '@/utils/supabase/client';
 import Link from 'next/link';
@@ -22,6 +22,22 @@ interface GenerateResponse {
   };
   posts: Post[];
   visualIdeas: string[];
+}
+
+function getCategoryMeta(category: string): { icon: React.ReactNode; color: string; bg: string; label: string } {
+  const cat = (category || '').toLowerCase();
+  if (cat.includes('indumentaria') || cat.includes('prenda') || cat.includes('ropa') || cat.includes('vestimenta'))
+    return { icon: <Shirt className="w-5 h-5" />, color: 'text-violet-400', bg: 'bg-violet-500/15', label: 'Indumentaria' };
+  if (cat.includes('calzado') || cat.includes('zapato') || cat.includes('zapatilla') || cat.includes('bota'))
+    return { icon: <Footprints className="w-5 h-5" />, color: 'text-amber-400', bg: 'bg-amber-500/15', label: 'Calzado' };
+  if (cat.includes('perfum') || cat.includes('fragancia') || cat.includes('colonia') || cat.includes('aroma'))
+    return { icon: <Droplets className="w-5 h-5" />, color: 'text-pink-400', bg: 'bg-pink-500/15', label: 'Perfumería' };
+  if (cat.includes('accesorio') || cat.includes('bolso') || cat.includes('cartera') || cat.includes('lentes') || cat.includes('cinturon'))
+    return { icon: <Watch className="w-5 h-5" />, color: 'text-cyan-400', bg: 'bg-cyan-500/15', label: 'Accesorios' };
+  if (cat.includes('tecnolog') || cat.includes('electr') || cat.includes('gadget'))
+    return { icon: <Cpu className="w-5 h-5" />, color: 'text-green-400', bg: 'bg-green-500/15', label: 'Tecnología' };
+  // Auto-detectar u otros
+  return { icon: <Tag className="w-5 h-5" />, color: 'text-slate-400', bg: 'bg-slate-700/40', label: category || 'General' };
 }
 
 export default function Home() {
@@ -587,10 +603,29 @@ export default function Home() {
                         }}
                         className="w-full p-5 rounded-[24px] bg-slate-900/80 border border-slate-800 hover:border-primary/50 text-left transition-all group active:scale-[0.98]"
                       >
-                        <span className="text-xs font-bold text-slate-500 block mb-2">{new Date(item.date).toLocaleDateString()}</span>
-                        <div className="flex justify-between items-center opacity-90 group-hover:opacity-100">
-                          <span className="font-bold tracking-tight text-lg text-slate-200">{item.productName}</span>
-                          <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform text-slate-400" />
+                        <div className="flex items-start gap-4">
+                          {/* Category icon thumbnail */}
+                          {(() => {
+                            const meta = getCategoryMeta(item.result?.category || '');
+                            return (
+                              <div className={`flex-shrink-0 w-12 h-12 rounded-2xl ${meta.bg} flex items-center justify-center ${meta.color} ring-1 ring-white/5 mt-0.5`}>
+                                {meta.icon}
+                              </div>
+                            );
+                          })()}
+                          <div className="flex-1 min-w-0">
+                            <span className="text-xs font-bold text-slate-500 block mb-1">{new Date(item.date).toLocaleDateString()}</span>
+                            <div className="flex justify-between items-center opacity-90 group-hover:opacity-100">
+                              <span className="font-bold tracking-tight text-base text-slate-200 truncate pr-2">{item.productName}</span>
+                              <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform text-slate-400 flex-shrink-0" />
+                            </div>
+                            {(() => {
+                              const meta = getCategoryMeta(item.result?.category || '');
+                              return (
+                                <span className={`text-[10px] font-black tracking-widest uppercase ${meta.color} mt-1 block`}>{meta.label}</span>
+                              );
+                            })()}
+                          </div>
                         </div>
                       </button>
                     ))}
