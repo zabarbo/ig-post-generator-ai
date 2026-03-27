@@ -328,17 +328,17 @@ export default function Home() {
                   <div className="p-6 rounded-3xl bg-slate-900/60 border border-slate-800/50 backdrop-blur-xl">
                     <div className="flex items-center gap-2 mb-4">
                       <span className="px-3 py-1 rounded-full bg-primary/20 text-primary text-xs font-black tracking-widest uppercase ring-1 ring-primary/30">
-                        {result.category}
+                        {result?.category}
                       </span>
                     </div>
                     <div className="grid grid-cols-2 gap-4 text-sm">
                       <div>
                         <span className="text-slate-500 block mb-1 font-bold">PÚBLICO IDEAL</span>
-                        <span className="text-slate-300 font-medium">{result.inference.targetAudience}</span>
+                        <span className="text-slate-300 font-medium">{result?.inference?.targetAudience}</span>
                       </div>
                       <div>
                         <span className="text-slate-500 block mb-1 font-bold">ESTILO VISUAL</span>
-                        <span className="text-slate-300 font-medium">{result.inference.style}</span>
+                        <span className="text-slate-300 font-medium">{result?.inference?.style}</span>
                       </div>
                     </div>
                   </div>
@@ -350,7 +350,7 @@ export default function Home() {
                       <h4 className="text-xs font-black tracking-widest text-blue-400 uppercase">Ideas Prácticas Visuales</h4>
                     </div>
                     <ul className="space-y-2">
-                      {result.visualIdeas.map((idea, i) => (
+                      {result?.visualIdeas?.map((idea, i) => (
                         <li key={i} className="flex items-start gap-2 text-sm text-slate-300">
                           <ChevronRight className="w-4 h-4 mt-0.5 text-blue-500 flex-shrink-0" />
                           {idea}
@@ -361,7 +361,7 @@ export default function Home() {
 
                   {/* Posts List */}
                   <div className="space-y-4">
-                    {result.posts.map((post, i) => (
+                    {result?.posts?.map((post, i) => (
                       <div key={i} className="group p-6 rounded-3xl bg-slate-900/40 border border-slate-800/50 hover:border-primary/30 transition-all">
                         <div className="flex justify-between items-center mb-4">
                           <div className="flex items-center gap-2">
