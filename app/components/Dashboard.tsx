@@ -232,6 +232,14 @@ export default function Home() {
                 <span className="hidden md:inline-block px-2 py-0.5 rounded-full bg-slate-800 border border-slate-700 text-[9px] font-black tracking-widest text-slate-500 uppercase">v1.0</span>
               </div>
               <span className="text-[11px] font-semibold tracking-[0.15em] text-slate-400 uppercase">Generador de Contenido IG</span>
+              <a
+                href="https://victorbarboza.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-[10px] text-slate-600 hover:text-slate-400 transition-colors font-medium tracking-wide mt-0.5 block"
+              >
+                Desarrollado por <span className="font-bold text-slate-500 hover:text-primary transition-colors">Victor Barboza</span>
+              </a>
             </div>
           </div>
           <div className="hidden md:flex flex-wrap items-center gap-3">
@@ -397,18 +405,6 @@ export default function Home() {
                   )}
                 </button>
               </div>
-            </div>
-
-            {/* Developer credit */}
-            <div className="text-center md:text-left mt-2">
-              <a
-                href="https://victorbarboza.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-[11px] text-slate-600 hover:text-slate-400 transition-colors font-medium tracking-wide"
-              >
-                Desarrollado por <span className="text-slate-500 hover:text-primary transition-colors font-bold">Victor Barboza</span>
-              </a>
             </div>
           </motion.div>
 
