@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { GoogleGenAI } from "@google/genai";
+import { createClient } from "@/utils/supabase/server";
 
 const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 
@@ -33,12 +34,33 @@ export async function POST(req: Request) {
     const requestedTone = tone || "Atractivo y vendedor";
     const requestedObjective = objective || "Venta directa";
 
+    // 1) Fetch Brand Context from Supabase
+    const supabase = await createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+    let profileContext = "";
+
+    if (user) {
+        const { data: profile } = await supabase.from('profiles').select('*').eq('id', user.id).single();
+        if (profile) {
+            profileContext = `
+--- CONTEXTO DE MARCA OBLIGATORIO ---
+Nombre de la marca: ${profile.brand_name || 'No especificado'}
+Público objetivo: ${profile.target_audience || 'No especificado'}
+Reglas de tono/voz: ${profile.brand_voice_rules || 'No especificadas'}
+Palabras prohibidas (NUNCA usar): ${profile.forbidden_words || 'Ninguna'}
+--------------------------------------
+Asegúrate de adaptar TODO el contenido generado a este contexto de marca de manera estricta. ¡Especialmente el tono y omitir las palabras prohibidas!
+`;
+        }
+    }
+
     const prompt = `Actúa como un experto en marketing digital y copywriter para Instagram.
 Producto: ${productName}
 Categoría: ${category}
 Precio: ${price || 'No especificado'}
 Tono deseado: ${requestedTone}
 Objetivo principal: ${requestedObjective}
+${profileContext}
 
 Debes analizar el producto y generar contenido altamente optimizado, creativo y listo para publicar. Genera la respuesta en formato JSON estrictamente siguiendo esta estructura:
 {
