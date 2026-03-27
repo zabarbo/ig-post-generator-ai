@@ -174,14 +174,14 @@ export default function Home() {
       {/* Background Orbs */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
         <motion.div 
-          animate={{ scale: [1, 1.2, 1], opacity: [0.15, 0.25, 0.15] }}
-          transition={{ duration: 10, repeat: Infinity }}
-          className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary/20 rounded-full blur-[120px]" 
+          animate={{ x: [0, 50, 0], opacity: [0.15, 0.25, 0.15] }}
+          transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
+          className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary/20 rounded-full blur-[120px] will-change-transform" 
         />
         <motion.div 
-          animate={{ scale: [1, 1.3, 1], opacity: [0.1, 0.15, 0.1] }}
-          transition={{ duration: 15, repeat: Infinity, delay: 2 }}
-          className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-blue-500/10 rounded-full blur-[120px]" 
+          animate={{ x: [0, -50, 0], opacity: [0.1, 0.15, 0.1] }}
+          transition={{ duration: 20, repeat: Infinity, ease: "linear", delay: 2 }}
+          className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-blue-500/10 rounded-full blur-[120px] will-change-transform" 
         />
       </div>
 
@@ -236,7 +236,8 @@ export default function Home() {
           <motion.div 
             initial={{ x: -20, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
-            className="space-y-8"
+            transition={{ type: "spring", damping: 30, stiffness: 300 }}
+            className="space-y-8 will-change-transform"
           >
             <div className="space-y-4">
               <h2 className="text-3xl md:text-5xl font-black leading-[1.1] tracking-tight">
@@ -366,7 +367,7 @@ export default function Home() {
 
           {/* Right Column: Results */}
           <div className="relative min-h-[200px] lg:min-h-[500px]">
-            <AnimatePresence mode="wait">
+            <AnimatePresence>
               {!result && !loading ? (
                 <motion.div 
                   key="empty"
@@ -529,8 +530,8 @@ export default function Home() {
               initial={{ y: "100%" }}
               animate={{ y: 0 }}
               exit={{ y: "100%" }}
-              transition={{ type: "spring", damping: 25, stiffness: 200 }}
-              className="fixed inset-x-0 bottom-0 top-12 md:top-auto md:h-[85vh] bg-slate-950 rounded-t-[32px] border-t border-slate-800 z-[101] shadow-2xl flex flex-col"
+              transition={{ type: "spring", damping: 30, stiffness: 300, mass: 0.8 }}
+              className="fixed inset-x-0 bottom-0 top-12 md:top-auto md:h-[85vh] bg-slate-950 rounded-t-[32px] border-t border-slate-800 z-[101] shadow-2xl flex flex-col will-change-transform"
             >
               {/* Drag Handle */}
               <div className="w-full flex justify-center pt-5 pb-2 cursor-pointer" onClick={() => setShowHistory(false)}>
@@ -592,8 +593,8 @@ export default function Home() {
               initial={{ y: "100%" }}
               animate={{ y: 0 }}
               exit={{ y: "100%" }}
-              transition={{ type: "spring", damping: 25, stiffness: 200 }}
-              className="fixed inset-x-0 bottom-0 top-12 md:top-auto md:h-[85vh] bg-slate-950 rounded-t-[32px] border-t border-slate-800 z-[101] shadow-2xl flex flex-col"
+              transition={{ type: "spring", damping: 30, stiffness: 300, mass: 0.8 }}
+              className="fixed inset-x-0 bottom-0 top-12 md:top-auto md:h-[85vh] bg-slate-950 rounded-t-[32px] border-t border-slate-800 z-[101] shadow-2xl flex flex-col will-change-transform"
             >
               {/* Drag Handle */}
               <div className="w-full flex justify-center pt-5 pb-2 cursor-pointer" onClick={() => setShowCalendar(false)}>
@@ -665,8 +666,8 @@ export default function Home() {
               initial={{ y: "100%" }}
               animate={{ y: 0 }}
               exit={{ y: "100%" }}
-              transition={{ type: "spring", damping: 25, stiffness: 200 }}
-              className="bg-slate-900 border-t border-slate-800 p-8 rounded-t-[32px] w-full max-w-lg shadow-2xl pb-safe"
+              transition={{ type: "spring", damping: 30, stiffness: 300, mass: 0.8 }}
+              className="bg-slate-900 border-t border-slate-800 p-8 rounded-t-[32px] w-full max-w-lg shadow-2xl pb-safe will-change-transform"
             >
               <h3 className="text-2xl font-black mb-2 text-white text-center">Planificar Post</h3>
               <p className="text-slate-400 text-[15px] mb-8 text-center px-4">Selecciona el día y horario en que publicarás este contenido.</p>
