@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Camera, Sparkles, History, Copy, Check, ChevronRight, X, Layout, Zap, Flame, Star, Settings2, Calendar as CalendarIcon, Clock, BarChart3 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { createClient } from '@/utils/supabase/client';
@@ -27,6 +27,7 @@ interface GenerateResponse {
 export default function Home() {
   const supabase = createClient();
   const pathname = usePathname();
+  const postsRef = useRef<HTMLDivElement>(null);
   
   // Input states
   const [productName, setProductName] = useState("");
@@ -436,7 +437,7 @@ export default function Home() {
                   </div>
 
                   {/* Posts List */}
-                  <div className="space-y-8 pb-12">
+                  <div ref={postsRef} className="space-y-8 pb-12">
                     {result?.posts?.map((post, i) => (
                       <motion.div 
                         initial={{ y: 20, opacity: 0 }}
@@ -560,6 +561,9 @@ export default function Home() {
                           setResult(item.result);
                           setProductName(item.productName);
                           setShowHistory(false);
+                          setTimeout(() => {
+                            postsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                          }, 100);
                         }}
                         className="w-full p-5 rounded-[24px] bg-slate-900/80 border border-slate-800 hover:border-primary/50 text-left transition-all group active:scale-[0.98]"
                       >
