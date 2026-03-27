@@ -317,7 +317,7 @@ export default function Home() {
                   <div className="h-24 bg-slate-800/20 rounded-3xl animate-pulse" />
                   <div className="h-[400px] bg-slate-800/20 rounded-3xl animate-pulse" />
                 </motion.div>
-              ) : (
+              ) : result ? (
                 <motion.div 
                   key="results"
                   initial={{ x: 20, opacity: 0 }}
@@ -402,7 +402,7 @@ export default function Home() {
                     ))}
                   </div>
                 </motion.div>
-              )}
+              ) : null}
             </AnimatePresence>
           </div>
         </div>
