@@ -1,11 +1,14 @@
 import { login, signup } from './actions'
 import { Camera, Mail, Lock } from 'lucide-react'
+import { use } from 'react'
 
 export default function LoginPage({
   searchParams,
 }: {
-  searchParams: { message: string }
+  searchParams: Promise<{ message: string }>
 }) {
+  const params = use(searchParams)
+
   return (
     <main className="min-h-screen bg-[#0f172a] text-slate-100 flex flex-col items-center justify-center p-6 selection:bg-primary/30 relative">
       <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
@@ -24,9 +27,9 @@ export default function LoginPage({
 
         <div className="bg-slate-900/40 border border-slate-800/50 backdrop-blur-2xl rounded-[32px] p-8 shadow-2xl">
           <form className="flex-1 flex flex-col w-full justify-center gap-6 text-foreground">
-            {searchParams?.message && (
+            {params?.message && (
               <div className="p-4 bg-red-500/10 border border-red-500/30 text-red-400 text-sm text-center font-bold rounded-xl mb-2">
-                {searchParams.message}
+                {params.message}
               </div>
             )}
 

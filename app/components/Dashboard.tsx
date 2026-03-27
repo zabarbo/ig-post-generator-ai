@@ -610,7 +610,11 @@ export default function Home() {
               <div className="flex-1 overflow-y-auto px-6 lg:px-12 pb-24">
                 <div className="flex justify-between items-center mb-8 pt-4">
                   <h3 className="text-2xl font-black tracking-tight">HISTORIAL</h3>
-                  <button onClick={() => setShowHistory(false)} className="p-3 rounded-2xl bg-slate-900 border border-slate-800 hover:bg-slate-800 transition-colors active:scale-95 text-slate-400">
+                  <button
+                    onClick={() => setShowHistory(false)}
+                    aria-label="Cerrar historial"
+                    className="p-3 rounded-2xl bg-slate-900 border border-slate-800 hover:bg-slate-800 transition-colors active:scale-95 text-slate-400"
+                  >
                     <X className="w-5 h-5" />
                   </button>
                 </div>
@@ -699,7 +703,11 @@ export default function Home() {
                     <CalendarIcon className="w-7 h-7 text-blue-400" />
                     <h3 className="text-2xl font-black tracking-tight">CALENDARIO</h3>
                   </div>
-                  <button onClick={() => setShowCalendar(false)} className="p-3 rounded-2xl bg-slate-900 border border-slate-800 hover:bg-slate-800 transition-colors active:scale-95 text-slate-400">
+                  <button
+                    onClick={() => setShowCalendar(false)}
+                    aria-label="Cerrar calendario"
+                    className="p-3 rounded-2xl bg-slate-900 border border-slate-800 hover:bg-slate-800 transition-colors active:scale-95 text-slate-400"
+                  >
                     <X className="w-5 h-5" />
                   </button>
                 </div>
@@ -717,6 +725,7 @@ export default function Home() {
                           onClick={() => removeScheduledPost(item.id)}
                           className="absolute top-4 right-4 p-2 bg-red-500/10 text-red-400 rounded-xl opacity-100 md:opacity-0 group-hover:opacity-100 transition-all active:scale-95"
                           title="Eliminar de calendario"
+                          aria-label="Eliminar de calendario"
                         >
                           <X className="w-4 h-4" />
                         </button>
@@ -796,31 +805,56 @@ export default function Home() {
       {/* Mobile Bottom Navigation Bar */}
       <div className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-slate-950 border-t border-slate-900/80 shadow-[0_-10px_40px_rgba(0,0,0,0.5)] pb-5 pt-3 px-6">
         <div className="flex items-center justify-between mt-1 text-slate-500">
-          <Link href="/" className="flex flex-col items-center gap-1.5 w-16 group active:scale-95 transition-all">
+          <Link
+            href="/"
+            aria-label="Inicio"
+            aria-current={pathname === '/' ? 'page' : undefined}
+            className="flex flex-col items-center gap-1.5 w-16 group active:scale-95 transition-all"
+          >
             <div className={`p-2 rounded-xl transition-colors ${pathname === '/' ? 'bg-primary/20 text-primary' : 'group-hover:text-slate-300'}`}>
               <Sparkles className="w-5 h-5" />
             </div>
           </Link>
           
-          <button onClick={() => setShowCalendar(true)} className="flex flex-col items-center gap-1.5 w-16 group active:scale-95 transition-all">
+          <button
+            onClick={() => setShowCalendar(true)}
+            aria-label="Calendario"
+            aria-expanded={showCalendar}
+            className="flex flex-col items-center gap-1.5 w-16 group active:scale-95 transition-all"
+          >
             <div className={`p-2 rounded-xl transition-colors ${showCalendar ? 'bg-blue-500/20 text-blue-400' : 'group-hover:text-slate-300'}`}>
               <CalendarIcon className="w-5 h-5" />
             </div>
           </button>
 
-          <button onClick={() => setShowHistory(true)} className="flex flex-col items-center gap-1.5 w-16 group active:scale-95 transition-all">
+          <button
+            onClick={() => setShowHistory(true)}
+            aria-label="Historial"
+            aria-expanded={showHistory}
+            className="flex flex-col items-center gap-1.5 w-16 group active:scale-95 transition-all"
+          >
             <div className={`p-2 rounded-xl transition-colors ${showHistory ? 'bg-slate-800 text-slate-200' : 'group-hover:text-slate-300'}`}>
               <History className="w-5 h-5" />
             </div>
           </button>
 
-          <Link href="/analytics" className="flex flex-col items-center gap-1.5 w-16 group active:scale-95 transition-all">
+          <Link
+            href="/analytics"
+            aria-label="Métricas"
+            aria-current={pathname === '/analytics' ? 'page' : undefined}
+            className="flex flex-col items-center gap-1.5 w-16 group active:scale-95 transition-all"
+          >
             <div className={`p-2 rounded-xl transition-colors ${pathname === '/analytics' ? 'bg-green-500/20 text-green-400' : 'group-hover:text-slate-300'}`}>
               <BarChart3 className="w-5 h-5" />
             </div>
           </Link>
 
-          <Link href="/settings" className="flex flex-col items-center gap-1.5 w-16 group active:scale-95 transition-all">
+          <Link
+            href="/settings"
+            aria-label="Ajustes de Marca"
+            aria-current={pathname === '/settings' ? 'page' : undefined}
+            className="flex flex-col items-center gap-1.5 w-16 group active:scale-95 transition-all"
+          >
             <div className={`p-2 rounded-xl transition-colors ${pathname === '/settings' ? 'bg-purple-500/20 text-purple-400' : 'group-hover:text-slate-300'}`}>
               <Settings2 className="w-5 h-5" />
             </div>

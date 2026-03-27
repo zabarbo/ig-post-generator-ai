@@ -78,7 +78,11 @@ export default function SettingsPage() {
         
         <header className="flex items-center justify-between mb-12">
           <div className="flex items-center gap-4">
-            <Link href="/" className="p-3 bg-slate-800 hover:bg-slate-700 rounded-xl transition-colors">
+            <Link
+              href="/"
+              aria-label="Volver al inicio"
+              className="p-3 bg-slate-800 hover:bg-slate-700 rounded-xl transition-colors"
+            >
               <ArrowLeft className="w-5 h-5 text-slate-300" />
             </Link>
             <div>
