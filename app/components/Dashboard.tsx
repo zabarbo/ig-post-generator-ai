@@ -5,6 +5,7 @@ import { Camera, Sparkles, History, Copy, Check, ChevronRight, X, Layout, Zap, F
 import { motion, AnimatePresence } from "framer-motion";
 import { createClient } from '@/utils/supabase/client';
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 
 interface Post {
@@ -212,15 +213,25 @@ export default function Home() {
       <div className="relative z-10 max-w-6xl mx-auto px-6 py-4 md:py-8">
         {/* Header */}
         <header className="flex flex-col md:flex-row justify-between items-center mb-6 md:mb-12 gap-6">
-          <div className="flex items-center gap-3">
-            <div className="w-12 h-12 bg-gradient-to-tr from-primary to-blue-500 rounded-2xl flex items-center justify-center shadow-xl shadow-primary/20 ring-1 ring-white/10">
-              <Camera className="w-7 h-7 text-white" />
+          <div className="flex items-center gap-4">
+            {/* ARPY Logo */}
+            <div className="relative w-14 h-14 md:w-16 md:h-16 flex-shrink-0">
+              <Image
+                src="/arpy_logo.png"
+                alt="ARPY ORIGENES"
+                fill
+                className="object-cover rounded-full ring-2 ring-white/10 shadow-xl shadow-black/30"
+                priority
+              />
             </div>
             <div>
-              <h1 className="text-2xl font-black bg-clip-text text-transparent bg-gradient-to-r from-white to-slate-400 leading-none">
-                IG POST GEN
-              </h1>
-              <span className="text-[10px] font-bold tracking-[0.2em] text-primary uppercase">Generado por Gemini AI</span>
+              <div className="flex items-center gap-2 mb-0.5">
+                <h1 className="text-xl md:text-2xl font-black tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white to-slate-300 leading-none">
+                  ARPY ORIGENES
+                </h1>
+                <span className="hidden md:inline-block px-2 py-0.5 rounded-full bg-slate-800 border border-slate-700 text-[9px] font-black tracking-widest text-slate-500 uppercase">v1.0</span>
+              </div>
+              <span className="text-[11px] font-semibold tracking-[0.15em] text-slate-400 uppercase">Generador de Contenido IG</span>
             </div>
           </div>
           <div className="hidden md:flex flex-wrap items-center gap-3">
@@ -386,6 +397,18 @@ export default function Home() {
                   )}
                 </button>
               </div>
+            </div>
+
+            {/* Developer credit */}
+            <div className="text-center md:text-left mt-2">
+              <a
+                href="https://victorbarboza.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-[11px] text-slate-600 hover:text-slate-400 transition-colors font-medium tracking-wide"
+              >
+                Desarrollado por <span className="text-slate-500 hover:text-primary transition-colors font-bold">Victor Barboza</span>
+              </a>
             </div>
           </motion.div>
 
