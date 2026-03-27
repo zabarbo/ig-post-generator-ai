@@ -45,6 +45,7 @@ export default function Home() {
   const [history, setHistory] = useState<any[]>([]);
   const [showHistory, setShowHistory] = useState(false);
   const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
+  const [justGenerated, setJustGenerated] = useState(false);
 
   // Calendar states (MVP+)
   const [scheduledPosts, setScheduledPosts] = useState<any[]>([]);
@@ -97,6 +98,12 @@ export default function Home() {
       if (data.error) throw new Error(data.error);
 
       setResult(data);
+      setJustGenerated(true);
+      
+      // Auto-scroll to results
+      setTimeout(() => {
+        postsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 100);
       
       const newHistoryItem = { productName, date: new Date().toISOString(), result: data };
       setHistory([newHistoryItem, ...history.slice(0, 19)]);
@@ -401,6 +408,18 @@ export default function Home() {
                   animate={{ x: 0, opacity: 1 }}
                   className="space-y-6"
                 >
+                  {justGenerated && (
+                    <motion.div 
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="p-4 rounded-2xl bg-green-500/10 border border-green-500/20 text-green-400 text-sm font-bold flex items-center gap-3"
+                    >
+                      <div className="w-8 h-8 rounded-full bg-green-500/20 flex items-center justify-center">
+                        <Check className="w-5 h-5" />
+                      </div>
+                      ¡Listo! Desliza para ver todas las opciones generadas.
+                    </motion.div>
+                  )}
                   {/* Category & Inference Header */}
                   <div className="p-6 rounded-3xl bg-slate-900/60 border border-slate-800/50 backdrop-blur-xl">
                     <div className="flex items-center gap-2 mb-4">
@@ -561,6 +580,7 @@ export default function Home() {
                           setResult(item.result);
                           setProductName(item.productName);
                           setShowHistory(false);
+                          setJustGenerated(false);
                           setTimeout(() => {
                             postsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
                           }, 100);
