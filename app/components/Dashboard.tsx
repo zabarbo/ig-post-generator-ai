@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { Camera, Sparkles, History, Copy, Check, ChevronRight, X, Layout, Zap, Flame, Star, Settings2, Calendar as CalendarIcon, Clock, BarChart3, Shirt, Footprints, Droplets, Watch, Tag, Cpu } from "lucide-react";
+import { Sparkles, History, Copy, Check, ChevronRight, X, Layout, Zap, Flame, Star, Settings2, Calendar as CalendarIcon, Clock, BarChart3, Shirt, Footprints, Droplets, Watch, Tag, Cpu } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { createClient } from '@/utils/supabase/client';
 import Link from 'next/link';
@@ -64,6 +64,9 @@ export default function Home() {
   const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
   const [justGenerated, setJustGenerated] = useState(false);
 
+  // Brand profile state
+  const [brandName, setBrandName] = useState('Tu Marca');
+
   // Calendar states (MVP+)
   const [scheduledPosts, setScheduledPosts] = useState<any[]>([]);
   const [showCalendar, setShowCalendar] = useState(false);
@@ -74,6 +77,17 @@ export default function Home() {
     async function loadData() {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) return;
+
+      // Load brand profile
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('brand_name')
+        .eq('id', user.id)
+        .single();
+
+      if (profile?.brand_name) {
+        setBrandName(profile.brand_name);
+      }
 
       const { data: posts } = await supabase
         .from('posts')
@@ -503,13 +517,18 @@ export default function Home() {
                         {/* Mock Instagram Header */}
                         <div className="px-5 py-4 flex items-center justify-between border-b border-white/5">
                           <div className="flex items-center gap-3">
-                            <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-primary to-indigo-600 p-[2px]">
-                              <div className="w-full h-full rounded-full bg-slate-950 flex items-center justify-center border-2 border-slate-950">
-                                <Camera className="w-5 h-5 text-slate-300" />
+                            <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-primary to-indigo-600 p-[2px] flex-shrink-0">
+                              <div className="w-full h-full rounded-full bg-slate-950 overflow-hidden border-2 border-slate-950 relative">
+                                <Image
+                                  src="/arpy_logo.png"
+                                  alt={brandName}
+                                  fill
+                                  className="object-cover"
+                                />
                               </div>
                             </div>
                             <div className="flex flex-col">
-                              <span className="text-sm font-black text-white leading-none">Tu Marca</span>
+                              <span className="text-sm font-black text-white leading-none">{brandName}</span>
                               <span className="text-[10px] text-slate-500 font-bold tracking-tight mt-1">{post.type} • IA Sugerido</span>
                             </div>
                           </div>
