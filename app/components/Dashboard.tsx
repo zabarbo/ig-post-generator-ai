@@ -801,31 +801,31 @@ export default function Home() {
       {/* Mobile Bottom Navigation Bar */}
       <div className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-slate-950 border-t border-slate-900/80 shadow-[0_-10px_40px_rgba(0,0,0,0.5)] pb-5 pt-3 px-6">
         <div className="flex items-center justify-between mt-1 text-slate-500">
-          <Link href="/" className="flex flex-col items-center gap-1.5 w-16 group active:scale-95 transition-all">
+          <Link href="/" className="flex flex-col items-center gap-1.5 w-16 group active:scale-95 transition-all" aria-label="Inicio">
             <div className={`p-2 rounded-xl transition-colors ${pathname === '/' ? 'bg-primary/20 text-primary' : 'group-hover:text-slate-300'}`}>
               <Sparkles className="w-5 h-5" />
             </div>
           </Link>
           
-          <button onClick={() => setShowCalendar(true)} className="flex flex-col items-center gap-1.5 w-16 group active:scale-95 transition-all">
+          <button onClick={() => setShowCalendar(true)} className="flex flex-col items-center gap-1.5 w-16 group active:scale-95 transition-all" aria-label="Ver calendario">
             <div className={`p-2 rounded-xl transition-colors ${showCalendar ? 'bg-blue-500/20 text-blue-400' : 'group-hover:text-slate-300'}`}>
               <CalendarIcon className="w-5 h-5" />
             </div>
           </button>
 
-          <button onClick={() => setShowHistory(true)} className="flex flex-col items-center gap-1.5 w-16 group active:scale-95 transition-all">
+          <button onClick={() => setShowHistory(true)} className="flex flex-col items-center gap-1.5 w-16 group active:scale-95 transition-all" aria-label="Ver historial">
             <div className={`p-2 rounded-xl transition-colors ${showHistory ? 'bg-slate-800 text-slate-200' : 'group-hover:text-slate-300'}`}>
               <History className="w-5 h-5" />
             </div>
           </button>
 
-          <Link href="/analytics" className="flex flex-col items-center gap-1.5 w-16 group active:scale-95 transition-all">
+          <Link href="/analytics" className="flex flex-col items-center gap-1.5 w-16 group active:scale-95 transition-all" aria-label="Ver métricas">
             <div className={`p-2 rounded-xl transition-colors ${pathname === '/analytics' ? 'bg-green-500/20 text-green-400' : 'group-hover:text-slate-300'}`}>
               <BarChart3 className="w-5 h-5" />
             </div>
           </Link>
 
-          <Link href="/settings" className="flex flex-col items-center gap-1.5 w-16 group active:scale-95 transition-all">
+          <Link href="/settings" className="flex flex-col items-center gap-1.5 w-16 group active:scale-95 transition-all" aria-label="Configuración de marca">
             <div className={`p-2 rounded-xl transition-colors ${pathname === '/settings' ? 'bg-purple-500/20 text-purple-400' : 'group-hover:text-slate-300'}`}>
               <Settings2 className="w-5 h-5" />
             </div>
