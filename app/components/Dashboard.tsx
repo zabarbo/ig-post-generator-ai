@@ -5,6 +5,7 @@ import { Camera, Sparkles, History, Copy, Check, ChevronRight, X, Layout, Zap, F
 import { motion, AnimatePresence } from "framer-motion";
 import { createClient } from '@/utils/supabase/client';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 interface Post {
   type: string;
@@ -25,6 +26,7 @@ interface GenerateResponse {
 
 export default function Home() {
   const supabase = createClient();
+  const pathname = usePathname();
   
   // Input states
   const [productName, setProductName] = useState("");
@@ -197,31 +199,31 @@ export default function Home() {
               <span className="text-[10px] font-bold tracking-[0.2em] text-primary uppercase">Generado por Gemini AI</span>
             </div>
           </div>
-          <div className="flex items-center gap-3">
+          <div className="hidden md:flex flex-wrap items-center gap-3">
             <Link 
               href="/analytics"
-              className="flex items-center gap-2 px-5 py-2.5 rounded-2xl bg-slate-800/40 border border-slate-700/50 hover:bg-slate-800 transition-all text-sm font-semibold backdrop-blur-md"
+              className="flex items-center gap-2 px-5 py-2.5 rounded-2xl bg-slate-800/40 border border-slate-700/50 hover:bg-slate-800 transition-all text-sm font-semibold backdrop-blur-md active:scale-95 text-slate-300"
             >
               <BarChart3 className="w-4 h-4 text-green-400" />
               Métricas
             </Link>
             <Link 
               href="/settings"
-              className="flex items-center gap-2 px-5 py-2.5 rounded-2xl bg-slate-800/40 border border-slate-700/50 hover:bg-slate-800 transition-all text-sm font-semibold backdrop-blur-md"
+              className="flex items-center gap-2 px-5 py-2.5 rounded-2xl bg-slate-800/40 border border-slate-700/50 hover:bg-slate-800 transition-all text-sm font-semibold backdrop-blur-md active:scale-95 text-slate-300"
             >
               <Settings2 className="w-4 h-4 text-purple-400" />
               Marca
             </Link>
             <button 
               onClick={() => setShowCalendar(true)}
-              className="flex items-center gap-2 px-5 py-2.5 rounded-2xl bg-slate-800/40 border border-slate-700/50 hover:bg-slate-800 transition-all text-sm font-semibold backdrop-blur-md"
+              className="flex items-center gap-2 px-5 py-2.5 rounded-2xl bg-slate-800/40 border border-slate-700/50 hover:bg-slate-800 transition-all text-sm font-semibold backdrop-blur-md active:scale-95 text-slate-300"
             >
               <CalendarIcon className="w-4 h-4 text-blue-400" />
               Calendario ({scheduledPosts.length})
             </button>
             <button 
               onClick={() => setShowHistory(true)}
-              className="flex items-center gap-2 px-5 py-2.5 rounded-2xl bg-slate-800/40 border border-slate-700/50 hover:bg-slate-800 transition-all text-sm font-semibold backdrop-blur-md"
+              className="flex items-center gap-2 px-5 py-2.5 rounded-2xl bg-slate-800/40 border border-slate-700/50 hover:bg-slate-800 transition-all text-sm font-semibold backdrop-blur-md active:scale-95 text-slate-300"
             >
               <History className="w-4 h-4 text-slate-400" />
               Historial
@@ -245,55 +247,60 @@ export default function Home() {
               </p>
             </div>
 
-            <div className="p-8 rounded-[32px] bg-slate-900/40 border border-slate-800/50 backdrop-blur-2xl shadow-2xl relative overflow-hidden group">
+            <div className="p-6 md:p-8 rounded-[32px] bg-slate-900/40 border border-slate-800/50 backdrop-blur-2xl shadow-2xl relative overflow-hidden group">
               <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
               
               <div className="space-y-6 relative">
-                <div className="space-y-2">
-                  <label className="text-sm font-bold text-slate-500 uppercase tracking-widest ml-1">Producto</label>
+                <div className="space-y-3">
+                  <label className="text-xs font-bold text-slate-500 uppercase tracking-[0.2em] ml-1">¿Qué quieres promocionar?</label>
                   <input 
                     value={productName}
                     onChange={(e) => setProductName(e.target.value)}
                     type="text" 
                     placeholder="Ej: Mochila Urbana Waterproof"
-                    className="w-full px-6 py-4 bg-slate-950/50 border border-slate-800 rounded-2xl focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all text-lg placeholder:text-slate-700"
+                    className="w-full px-6 py-5 bg-slate-950/50 border border-slate-800 rounded-[24px] focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all text-lg placeholder:text-slate-700"
                   />
                 </div>
                 
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <label className="text-sm font-bold text-slate-500 uppercase tracking-widest ml-1">Categoría</label>
-                    <select 
-                      value={category}
-                      onChange={(e) => setCategory(e.target.value)}
-                      className="w-full px-6 py-4 bg-slate-950/50 border border-slate-800 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all appearance-none cursor-pointer text-slate-200"
-                    >
-                      <option>Auto-detectar</option>
-                      <option>Indumentaria</option>
-                      <option>Calzado</option>
-                      <option>Perfumería</option>
-                      <option>Accesorios</option>
-                    </select>
+                    <label className="text-xs font-bold text-slate-500 uppercase tracking-[0.2em] ml-1">Categoría</label>
+                    <div className="relative">
+                      <select 
+                        value={category}
+                        onChange={(e) => setCategory(e.target.value)}
+                        className="w-full px-6 py-4 bg-slate-950/50 border border-slate-800 rounded-[20px] focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all appearance-none cursor-pointer text-slate-200"
+                      >
+                        <option>Auto-detectar</option>
+                        <option>Indumentaria</option>
+                        <option>Calzado</option>
+                        <option>Perfumería</option>
+                        <option>Accesorios</option>
+                      </select>
+                      <ChevronRight className="absolute right-5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500 pointer-events-none rotate-90" />
+                    </div>
                   </div>
                   <div className="space-y-2">
-                    <label className="text-sm font-bold text-slate-500 uppercase tracking-widest ml-1">Precio</label>
+                    <label className="text-xs font-bold text-slate-500 uppercase tracking-[0.2em] ml-1">Precio (Opcional)</label>
                     <input 
                       value={price}
                       onChange={(e) => setPrice(e.target.value)}
                       type="text" 
                       placeholder="$ 0.00"
-                      className="w-full px-6 py-4 bg-slate-950/50 border border-slate-800 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all text-slate-200"
+                      className="w-full px-6 py-4 bg-slate-950/50 border border-slate-800 rounded-[20px] focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all text-slate-200"
                     />
                   </div>
                 </div>
 
-                <div className="border-t border-slate-800 pt-4">
+                <div className="pt-2">
                   <button 
                     onClick={() => setShowAdvanced(!showAdvanced)}
-                    className="flex items-center gap-2 text-sm font-bold text-slate-400 hover:text-primary transition-colors mb-2"
+                    className="flex items-center gap-2 text-sm font-bold text-primary/80 hover:text-primary transition-colors mb-2 px-1 active:scale-95"
                   >
-                    <Settings2 className="w-4 h-4" />
-                    Configuración Avanzada (Opcional)
+                    <div className={`p-1.5 rounded-lg bg-primary/10 transition-transform duration-300 ${showAdvanced ? 'rotate-180' : ''}`}>
+                      <ChevronRight className="w-4 h-4" />
+                    </div>
+                    {showAdvanced ? 'Ocultar ajustes' : 'Personalizar Tono y Objetivo'}
                   </button>
                   
                   <AnimatePresence>
@@ -302,14 +309,14 @@ export default function Home() {
                         initial={{ height: 0, opacity: 0 }}
                         animate={{ height: "auto", opacity: 1 }}
                         exit={{ height: 0, opacity: 0 }}
-                        className="overflow-hidden space-y-4 pt-4"
+                        className="overflow-hidden space-y-5 pt-4 pb-2"
                       >
                         <div className="space-y-2">
-                          <label className="text-xs font-bold text-slate-500 uppercase tracking-widest ml-1">Tono del Post</label>
+                          <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest ml-1">Tono del Contenido</label>
                           <select 
                             value={tone}
                             onChange={(e) => setTone(e.target.value)}
-                            className="w-full px-6 py-3 bg-slate-950/50 border border-slate-800 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/50 text-slate-200"
+                            className="w-full px-6 py-4 bg-slate-900/50 border border-slate-800 rounded-2xl focus:outline-none focus:ring-2 focus:ring-primary/50 text-slate-200 appearance-none"
                           >
                             <option>Atractivo y vendedor</option>
                             <option>Elegante y sofisticado</option>
@@ -319,11 +326,11 @@ export default function Home() {
                           </select>
                         </div>
                         <div className="space-y-2">
-                          <label className="text-xs font-bold text-slate-500 uppercase tracking-widest ml-1">Objetivo del Post</label>
+                          <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest ml-1">Objetivo Estratégico</label>
                           <select 
                             value={objective}
                             onChange={(e) => setObjective(e.target.value)}
-                            className="w-full px-6 py-3 bg-slate-950/50 border border-slate-800 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/50 text-slate-200"
+                            className="w-full px-6 py-4 bg-slate-900/50 border border-slate-800 rounded-2xl focus:outline-none focus:ring-2 focus:ring-primary/50 text-slate-200 appearance-none"
                           >
                             <option>Venta directa</option>
                             <option>Generar interacción (Likes/Comentarios)</option>
@@ -339,14 +346,17 @@ export default function Home() {
                 <button 
                   onClick={handleGenerate}
                   disabled={loading || !productName}
-                  className="w-full py-4.5 bg-gradient-to-r from-primary to-blue-600 hover:scale-[1.02] disabled:hover:scale-100 disabled:opacity-50 text-white rounded-2xl font-black text-lg shadow-2xl shadow-primary/30 flex items-center justify-center gap-3 transition-all group active:scale-95"
+                  className="w-full py-5 bg-gradient-to-r from-primary via-blue-600 to-indigo-600 hover:brightness-110 disabled:opacity-50 text-white rounded-[24px] font-black text-lg shadow-2xl shadow-primary/30 flex items-center justify-center gap-3 transition-all active:scale-95 touch-manipulation"
                 >
                   {loading ? (
-                    <div className="w-6 h-6 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                    <div className="flex items-center gap-3">
+                      <div className="w-6 h-6 border-3 border-white/20 border-t-white rounded-full animate-spin" />
+                      <span className="animate-pulse">CREANDO MAGIA...</span>
+                    </div>
                   ) : (
                     <>
-                      <Sparkles className="w-6 h-6 group-hover:rotate-12 transition-transform" />
-                      GENERAR CON GEMINI AI
+                      <Sparkles className="w-6 h-6" />
+                      GENERAR POSTS
                     </>
                   )}
                 </button>
@@ -425,45 +435,76 @@ export default function Home() {
                   </div>
 
                   {/* Posts List */}
-                  <div className="space-y-4">
+                  <div className="space-y-8 pb-12">
                     {result?.posts?.map((post, i) => (
-                      <div key={i} className="group p-6 rounded-3xl bg-slate-900/40 border border-slate-800/50 hover:border-primary/30 transition-all">
-                        <div className="flex justify-between items-center mb-4">
-                          <div className="flex items-center gap-2">
-                            {post.type === "Promocional" && <Flame className="w-4 h-4 text-orange-500" />}
-                            {post.type === "Aspiracional" && <Star className="w-4 h-4 text-yellow-500" />}
-                            {post.type === "Urgencia" && <Zap className="w-4 h-4 text-red-500" />}
-                            <h4 className="text-xs font-black tracking-widest text-slate-400 uppercase">{post.type}</h4>
+                      <motion.div 
+                        initial={{ y: 20, opacity: 0 }}
+                        animate={{ y: 0, opacity: 1 }}
+                        transition={{ delay: i * 0.1 }}
+                        key={i} 
+                        className="group overflow-hidden rounded-[32px] bg-slate-900/60 border border-slate-800/50 shadow-2xl"
+                      >
+                        {/* Mock Instagram Header */}
+                        <div className="px-5 py-4 flex items-center justify-between border-b border-white/5">
+                          <div className="flex items-center gap-3">
+                            <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-primary to-indigo-600 p-[2px]">
+                              <div className="w-full h-full rounded-full bg-slate-950 flex items-center justify-center border-2 border-slate-950">
+                                <Camera className="w-5 h-5 text-slate-300" />
+                              </div>
+                            </div>
+                            <div className="flex flex-col">
+                              <span className="text-sm font-black text-white leading-none">Tu Marca</span>
+                              <span className="text-[10px] text-slate-500 font-bold tracking-tight mt-1">{post.type} • IA Sugerido</span>
+                            </div>
                           </div>
-                          
-                          <div className="flex gap-2">
-                            <button 
-                              onClick={() => handleScheduleProcess(post)}
-                              className="p-2 rounded-xl bg-slate-800/50 hover:bg-blue-600 hover:text-white transition-all text-slate-400"
-                              title="Planificar en Calendario"
-                            >
-                              <CalendarIcon className="w-4 h-4" />
-                            </button>
-                            <button 
-                              onClick={() => copyToClipboard(post.content + "\n\n" + post.hashtags.join(" "), i)}
-                              className="p-2 rounded-xl bg-slate-800/50 hover:bg-primary hover:text-white transition-all text-slate-400"
-                              title="Copiar Post"
-                            >
-                              {copiedIndex === i ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
-                            </button>
+                          <div className="flex gap-1">
+                            <div className="w-1 h-1 rounded-full bg-slate-700" />
+                            <div className="w-1 h-1 rounded-full bg-slate-700" />
+                            <div className="w-1 h-1 rounded-full bg-slate-700" />
                           </div>
                         </div>
-                        <p className="text-slate-300 whitespace-pre-wrap text-[15px] leading-relaxed mb-4">
-                          {post.content}
-                        </p>
-                        <div className="flex flex-wrap gap-2 pt-4 border-t border-slate-800/50">
-                          {post.hashtags.map((tag, j) => (
-                            <span key={j} className="text-[11px] font-bold text-primary px-2.5 py-1 rounded-lg bg-primary/10 tracking-wide">
-                              {tag}
-                            </span>
-                          ))}
+
+                        {/* Post Content Area */}
+                        <div className="p-6 pb-4">
+                          <p className="text-slate-200 whitespace-pre-wrap text-[15px] leading-relaxed mb-6 font-medium">
+                            {post.content}
+                          </p>
+                          <div className="flex flex-wrap gap-2 mb-6">
+                            {post.hashtags.map((tag, j) => (
+                              <span key={j} className="text-sm font-bold text-primary hover:underline cursor-pointer">
+                                {tag}
+                              </span>
+                            ))}
+                          </div>
                         </div>
-                      </div>
+
+                        {/* Action Buttons (Native Style) */}
+                        <div className="px-4 pb-6 grid grid-cols-2 gap-3">
+                          <button 
+                            onClick={() => copyToClipboard(post.content + "\n\n" + post.hashtags.join(" "), i)}
+                            className="flex items-center justify-center gap-2 py-4 bg-slate-800/80 hover:bg-slate-800 text-white rounded-2xl text-[13px] font-black transition-all active:scale-95 border border-white/5"
+                          >
+                            {copiedIndex === i ? (
+                              <>
+                                <Check className="w-4 h-4 text-green-400" />
+                                <span className="text-green-400">¡COPIADO!</span>
+                              </>
+                            ) : (
+                              <>
+                                <Copy className="w-4 h-4" />
+                                COPIAR TEXTO
+                              </>
+                            )}
+                          </button>
+                          <button 
+                            onClick={() => handleScheduleProcess(post)}
+                            className="flex items-center justify-center gap-2 py-4 bg-primary hover:brightness-110 text-white rounded-2xl text-[13px] font-black transition-all active:scale-95 shadow-lg shadow-primary/20"
+                          >
+                            <CalendarIcon className="w-4 h-4" />
+                            PLANIFICAR
+                          </button>
+                        </div>
+                      </motion.div>
                     ))}
                   </div>
                 </motion.div>
@@ -485,44 +526,52 @@ export default function Home() {
               className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[100]"
             />
             <motion.div 
-              initial={{ x: "100%" }}
-              animate={{ x: 0 }}
-              exit={{ x: "100%" }}
-              className="fixed right-0 top-0 bottom-0 w-full max-w-md bg-slate-950 border-l border-slate-800 z-[101] shadow-2xl p-8 overflow-y-auto"
+              initial={{ y: "100%" }}
+              animate={{ y: 0 }}
+              exit={{ y: "100%" }}
+              transition={{ type: "spring", damping: 25, stiffness: 200 }}
+              className="fixed inset-x-0 bottom-0 top-12 md:top-auto md:h-[85vh] bg-slate-950 rounded-t-[32px] border-t border-slate-800 z-[101] shadow-2xl flex flex-col"
             >
-              <div className="flex justify-between items-center mb-8">
-                <h3 className="text-xl font-black tracking-tight">HISTORIAL</h3>
-                <button onClick={() => setShowHistory(false)} className="p-2 rounded-xl hover:bg-slate-800">
-                  <X className="w-6 h-6" />
-                </button>
+              {/* Drag Handle */}
+              <div className="w-full flex justify-center pt-5 pb-2 cursor-pointer" onClick={() => setShowHistory(false)}>
+                <div className="w-12 h-1.5 bg-slate-800 rounded-full" />
               </div>
+              
+              <div className="flex-1 overflow-y-auto px-6 lg:px-12 pb-24">
+                <div className="flex justify-between items-center mb-8 pt-4">
+                  <h3 className="text-2xl font-black tracking-tight">HISTORIAL</h3>
+                  <button onClick={() => setShowHistory(false)} className="p-3 rounded-2xl bg-slate-900 border border-slate-800 hover:bg-slate-800 transition-colors active:scale-95 text-slate-400">
+                    <X className="w-5 h-5" />
+                  </button>
+                </div>
 
-              {history.length === 0 ? (
-                <div className="flex flex-col items-center justify-center h-[60vh] text-slate-600 space-y-2">
-                  <History className="w-12 h-12 opacity-20" />
-                  <p>No hay generaciones aún.</p>
-                </div>
-              ) : (
-                <div className="space-y-4">
-                  {history.map((item, i) => (
-                    <button 
-                      key={i} 
-                      onClick={() => {
-                        setResult(item.result);
-                        setProductName(item.productName);
-                        setShowHistory(false);
-                      }}
-                      className="w-full p-4 rounded-2xl bg-slate-900 border border-slate-800 hover:border-primary/50 text-left transition-all group"
-                    >
-                      <span className="text-xs text-slate-500 block mb-1">{new Date(item.date).toLocaleDateString()}</span>
-                      <div className="flex justify-between items-center">
-                        <span className="font-bold text-slate-200">{item.productName}</span>
-                        <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                      </div>
-                    </button>
-                  ))}
-                </div>
-              )}
+                {history.length === 0 ? (
+                  <div className="flex flex-col items-center justify-center h-[50vh] text-slate-600 space-y-4">
+                    <History className="w-16 h-16 opacity-30" />
+                    <p className="font-semibold text-lg">No hay generaciones aún.</p>
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {history.map((item, i) => (
+                      <button 
+                        key={i} 
+                        onClick={() => {
+                          setResult(item.result);
+                          setProductName(item.productName);
+                          setShowHistory(false);
+                        }}
+                        className="w-full p-5 rounded-[24px] bg-slate-900/80 border border-slate-800 hover:border-primary/50 text-left transition-all group active:scale-[0.98]"
+                      >
+                        <span className="text-xs font-bold text-slate-500 block mb-2">{new Date(item.date).toLocaleDateString()}</span>
+                        <div className="flex justify-between items-center opacity-90 group-hover:opacity-100">
+                          <span className="font-bold tracking-tight text-lg text-slate-200">{item.productName}</span>
+                          <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform text-slate-400" />
+                        </div>
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
             </motion.div>
           </>
         )}
@@ -540,56 +589,64 @@ export default function Home() {
               className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[100]"
             />
             <motion.div 
-              initial={{ x: "100%" }}
-              animate={{ x: 0 }}
-              exit={{ x: "100%" }}
-              className="fixed right-0 top-0 bottom-0 w-full max-w-md bg-slate-950 border-l border-slate-800 z-[101] shadow-2xl p-8 overflow-y-auto"
+              initial={{ y: "100%" }}
+              animate={{ y: 0 }}
+              exit={{ y: "100%" }}
+              transition={{ type: "spring", damping: 25, stiffness: 200 }}
+              className="fixed inset-x-0 bottom-0 top-12 md:top-auto md:h-[85vh] bg-slate-950 rounded-t-[32px] border-t border-slate-800 z-[101] shadow-2xl flex flex-col"
             >
-              <div className="flex justify-between items-center mb-8">
-                <div className="flex items-center gap-2">
-                  <CalendarIcon className="w-5 h-5 text-blue-400" />
-                  <h3 className="text-xl font-black tracking-tight">CALENDARIO</h3>
-                </div>
-                <button onClick={() => setShowCalendar(false)} className="p-2 rounded-xl hover:bg-slate-800">
-                  <X className="w-6 h-6" />
-                </button>
+              {/* Drag Handle */}
+              <div className="w-full flex justify-center pt-5 pb-2 cursor-pointer" onClick={() => setShowCalendar(false)}>
+                <div className="w-12 h-1.5 bg-slate-800 rounded-full" />
               </div>
 
-              {scheduledPosts.length === 0 ? (
-                <div className="flex flex-col items-center justify-center h-[60vh] text-slate-600 space-y-2">
-                  <CalendarIcon className="w-12 h-12 opacity-20" />
-                  <p>No hay posts planificados.</p>
+              <div className="flex-1 overflow-y-auto px-6 lg:px-12 pb-24">
+                <div className="flex justify-between items-center mb-8 pt-4">
+                  <div className="flex items-center gap-3">
+                    <CalendarIcon className="w-7 h-7 text-blue-400" />
+                    <h3 className="text-2xl font-black tracking-tight">CALENDARIO</h3>
+                  </div>
+                  <button onClick={() => setShowCalendar(false)} className="p-3 rounded-2xl bg-slate-900 border border-slate-800 hover:bg-slate-800 transition-colors active:scale-95 text-slate-400">
+                    <X className="w-5 h-5" />
+                  </button>
                 </div>
-              ) : (
-                <div className="space-y-6">
-                  {scheduledPosts.map((item) => (
-                    <div key={item.id} className="p-5 rounded-2xl bg-slate-900 border border-slate-800 relative">
-                      <button 
-                        onClick={() => removeScheduledPost(item.id)}
-                        className="absolute top-4 right-4 text-slate-500 hover:text-red-400 transition-colors"
-                        title="Eliminar de calendario"
-                      >
-                        <X className="w-4 h-4" />
-                      </button>
-                      <div className="flex items-center gap-2 text-primary font-bold text-sm mb-2">
-                        <Clock className="w-4 h-4" />
-                        {new Date(item.date).toLocaleString([], { dateStyle: 'short', timeStyle: 'short' })}
+
+                {scheduledPosts.length === 0 ? (
+                  <div className="flex flex-col items-center justify-center h-[50vh] text-slate-600 space-y-4">
+                    <CalendarIcon className="w-16 h-16 opacity-30" />
+                    <p className="font-semibold text-lg">No hay posts planificados.</p>
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    {scheduledPosts.map((item) => (
+                      <div key={item.id} className="group p-6 rounded-[24px] bg-slate-900/80 border border-slate-800 relative hover:border-slate-700 transition-colors">
+                        <button 
+                          onClick={() => removeScheduledPost(item.id)}
+                          className="absolute top-4 right-4 p-2 bg-red-500/10 text-red-400 rounded-xl opacity-100 md:opacity-0 group-hover:opacity-100 transition-all active:scale-95"
+                          title="Eliminar de calendario"
+                        >
+                          <X className="w-4 h-4" />
+                        </button>
+                        <div className="flex items-center gap-2 text-primary font-bold text-sm mb-3">
+                          <Clock className="w-5 h-5 text-blue-400" />
+                          {new Date(item.date).toLocaleString([], { dateStyle: 'short', timeStyle: 'short' })}
+                        </div>
+                        <h4 className="font-bold text-slate-200 text-lg mb-1 leading-snug">{item.productName}</h4>
+                        <div className="text-xs text-slate-500 uppercase tracking-widest font-black mb-4">{item.post.type}</div>
+                        <p className="text-[15px] text-slate-400 line-clamp-3 mb-5 leading-relaxed">{item.post.content}</p>
+                        
+                        <button 
+                          onClick={() => copyToClipboard(item.post.content + "\n\n" + item.post.hashtags.join(" "), item.id)}
+                          className="w-full flex items-center justify-center gap-2 px-5 py-3 bg-slate-800 hover:bg-slate-700 rounded-xl text-sm font-bold transition-colors active:scale-95 text-slate-200"
+                        >
+                          {copiedIndex === item.id ? <Check className="w-4 h-4 text-green-400" /> : <Copy className="w-4 h-4" />}
+                          Copiar para publicar
+                        </button>
                       </div>
-                      <h4 className="font-bold text-slate-300 text-lg mb-1">{item.productName}</h4>
-                      <div className="text-xs text-slate-500 uppercase tracking-widest font-black mb-3">{item.post.type}</div>
-                      <p className="text-sm text-slate-400 line-clamp-3 mb-3">{item.post.content}</p>
-                      
-                      <button 
-                        onClick={() => copyToClipboard(item.post.content + "\n\n" + item.post.hashtags.join(" "), item.id)}
-                        className="flex items-center gap-2 px-4 py-2 bg-slate-800 hover:bg-slate-700 rounded-xl text-xs font-bold transition-colors"
-                      >
-                        {copiedIndex === item.id ? <Check className="w-3 h-3 text-green-400" /> : <Copy className="w-3 h-3" />}
-                        Copiar para publicar
-                      </button>
-                    </div>
-                  ))}
-                </div>
-              )}
+                    ))}
+                  </div>
+                )}
+              </div>
             </motion.div>
           </>
         )}
@@ -602,36 +659,38 @@ export default function Home() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[110] flex items-center justify-center bg-black/80 backdrop-blur-md p-4"
+            className="fixed inset-0 z-[110] flex items-end justify-center bg-black/80 backdrop-blur-md"
           >
             <motion.div 
-              initial={{ scale: 0.95, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              className="bg-slate-900 border border-slate-800 p-8 rounded-3xl w-full max-w-sm shadow-2xl"
+              initial={{ y: "100%" }}
+              animate={{ y: 0 }}
+              exit={{ y: "100%" }}
+              transition={{ type: "spring", damping: 25, stiffness: 200 }}
+              className="bg-slate-900 border-t border-slate-800 p-8 rounded-t-[32px] w-full max-w-lg shadow-2xl pb-safe"
             >
-              <h3 className="text-xl font-black mb-2 text-white">Planificar Post</h3>
-              <p className="text-slate-400 text-sm mb-6">Selecciona el día y horario en que publicarás este contenido.</p>
+              <h3 className="text-2xl font-black mb-2 text-white text-center">Planificar Post</h3>
+              <p className="text-slate-400 text-[15px] mb-8 text-center px-4">Selecciona el día y horario en que publicarás este contenido.</p>
               
-              <div className="space-y-4 mb-8">
+              <div className="mb-8">
                 <input 
                   type="datetime-local" 
                   value={scheduledDate}
                   onChange={(e) => setScheduledDate(e.target.value)}
-                  className="w-full px-5 py-3 bg-slate-950 border border-slate-800 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/50 text-slate-200"
+                  className="w-full px-6 py-4 bg-slate-950 border border-slate-800 rounded-2xl focus:outline-none focus:ring-2 focus:ring-primary/50 text-slate-200 text-lg appearance-none"
                 />
               </div>
 
-              <div className="flex gap-3">
+              <div className="flex gap-4">
                 <button 
                   onClick={() => setSchedulingPost(null)}
-                  className="flex-1 py-3 bg-slate-800 hover:bg-slate-700 text-white rounded-xl font-bold transition-all text-sm"
+                  className="flex-1 py-4 bg-slate-800 hover:bg-slate-700 text-white rounded-2xl font-bold transition-all text-[15px] active:scale-95"
                 >
                   Cancelar
                 </button>
                 <button 
                   onClick={saveScheduledPost}
                   disabled={!scheduledDate}
-                  className="flex-1 py-3 bg-blue-600 hover:bg-blue-500 disabled:opacity-50 disabled:hover:bg-blue-600 text-white rounded-xl font-bold transition-all text-sm shadow-lg shadow-blue-500/20"
+                  className="flex-1 py-4 bg-primary focus:ring-4 focus:ring-primary/30 hover:bg-blue-600 disabled:opacity-50 text-white rounded-2xl font-bold transition-all text-[15px] shadow-lg shadow-primary/20 active:scale-95"
                 >
                   Guardar
                 </button>
@@ -640,6 +699,41 @@ export default function Home() {
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* Mobile Bottom Navigation Bar */}
+      <div className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-slate-950 border-t border-slate-900/80 shadow-[0_-10px_40px_rgba(0,0,0,0.5)] pb-5 pt-3 px-6">
+        <div className="flex items-center justify-between mt-1 text-slate-500">
+          <Link href="/" className="flex flex-col items-center gap-1.5 w-16 group active:scale-95 transition-all">
+            <div className={`p-2 rounded-xl transition-colors ${pathname === '/' ? 'bg-primary/20 text-primary' : 'group-hover:text-slate-300'}`}>
+              <Sparkles className="w-5 h-5" />
+            </div>
+          </Link>
+          
+          <button onClick={() => setShowCalendar(true)} className="flex flex-col items-center gap-1.5 w-16 group active:scale-95 transition-all">
+            <div className={`p-2 rounded-xl transition-colors ${showCalendar ? 'bg-blue-500/20 text-blue-400' : 'group-hover:text-slate-300'}`}>
+              <CalendarIcon className="w-5 h-5" />
+            </div>
+          </button>
+
+          <button onClick={() => setShowHistory(true)} className="flex flex-col items-center gap-1.5 w-16 group active:scale-95 transition-all">
+            <div className={`p-2 rounded-xl transition-colors ${showHistory ? 'bg-slate-800 text-slate-200' : 'group-hover:text-slate-300'}`}>
+              <History className="w-5 h-5" />
+            </div>
+          </button>
+
+          <Link href="/analytics" className="flex flex-col items-center gap-1.5 w-16 group active:scale-95 transition-all">
+            <div className={`p-2 rounded-xl transition-colors ${pathname === '/analytics' ? 'bg-green-500/20 text-green-400' : 'group-hover:text-slate-300'}`}>
+              <BarChart3 className="w-5 h-5" />
+            </div>
+          </Link>
+
+          <Link href="/settings" className="flex flex-col items-center gap-1.5 w-16 group active:scale-95 transition-all">
+            <div className={`p-2 rounded-xl transition-colors ${pathname === '/settings' ? 'bg-purple-500/20 text-purple-400' : 'group-hover:text-slate-300'}`}>
+              <Settings2 className="w-5 h-5" />
+            </div>
+          </Link>
+        </div>
+      </div>
 
     </main>
   );
