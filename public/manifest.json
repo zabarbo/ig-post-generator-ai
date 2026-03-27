@@ -1,0 +1,18 @@
+{
+  "name": "IG Post Generator AI",
+  "short_name": "IG Post Gen",
+  "description": "Genera contenido de alto impacto para Instagram con IA",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0f172a",
+  "theme_color": "#4f46e5",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/icon.png",
+      "sizes": "1024x1024",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
