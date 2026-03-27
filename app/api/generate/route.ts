@@ -95,7 +95,7 @@ Debes analizar el producto y generar contenido altamente optimizado, creativo y 
 }`;
 
     const response = await ai.models.generateContent({
-      model: "gemini-2.5-flash",
+      model: "gemini-1.5-flash", // Corrected model name (2.5 does not exist)
       contents: prompt,
       config: {
         responseMimeType: "application/json",

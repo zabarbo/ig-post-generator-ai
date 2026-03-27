@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { Camera, Sparkles, History, Copy, Check, ChevronRight, X, Layout, Zap, Flame, Star, Settings2, Calendar as CalendarIcon, Clock, BarChart3, Shirt, Footprints, Droplets, Watch, Tag, Cpu } from "lucide-react";
+import { Camera, Sparkles, History, Copy, Check, ChevronRight, X, Layout, Zap, Settings2, Calendar as CalendarIcon, Clock, BarChart3, Shirt, Footprints, Droplets, Watch, Tag, Cpu } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { createClient } from '@/utils/supabase/client';
 import Link from 'next/link';
@@ -75,26 +75,40 @@ export default function Home() {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) return;
 
-      const { data: posts } = await supabase
-        .from('posts')
-        .select('*')
-        .eq('user_id', user.id)
-        .order('created_at', { ascending: false });
+      // Parallelize queries and fetch only necessary columns with server-side filtering and limits
+      // This is more efficient than fetching all posts and filtering on the client
+      const [historyResponse, scheduledResponse] = await Promise.all([
+        supabase
+          .from('posts')
+          .select('product_name, created_at, content')
+          .eq('user_id', user.id)
+          .eq('status', 'draft')
+          .order('created_at', { ascending: false })
+          .limit(20),
+        supabase
+          .from('posts')
+          .select('id, product_name, scheduled_at, content')
+          .eq('user_id', user.id)
+          .eq('status', 'scheduled')
+          .order('scheduled_at', { ascending: true })
+      ]);
 
-      if (posts) {
-        const h = posts.filter(p => p.status === 'draft').slice(0, 20).map(p => ({
+      if (historyResponse.data) {
+        const h = historyResponse.data.map(p => ({
           productName: p.product_name,
           date: p.created_at,
           result: JSON.parse(p.content)
         }));
         setHistory(h);
+      }
 
-        const s = posts.filter(p => p.status === 'scheduled').map(p => ({
+      if (scheduledResponse.data) {
+        const s = scheduledResponse.data.map(p => ({
           id: p.id,
           productName: p.product_name,
           date: p.scheduled_at,
           post: JSON.parse(p.content)
-        })).sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+        }));
         setScheduledPosts(s);
       }
     }

@@ -42,6 +42,10 @@ CREATE TABLE public.posts (
   created_at TIMESTAMP WITH TIME ZONE DEFAULT TIMEZONE('utc'::text, NOW()) NOT NULL
 );
 
+-- Optimization Indexes
+CREATE INDEX idx_posts_user_status_created ON public.posts(user_id, status, created_at DESC);
+CREATE INDEX idx_posts_user_status_scheduled ON public.posts(user_id, status, scheduled_at ASC);
+
 -- Enable Row Level Security
 ALTER TABLE public.posts ENABLE ROW LEVEL SECURITY;
 
