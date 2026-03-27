@@ -185,9 +185,9 @@ export default function Home() {
         />
       </div>
 
-      <div className="relative z-10 max-w-6xl mx-auto px-6 py-8">
+      <div className="relative z-10 max-w-6xl mx-auto px-6 py-4 md:py-8">
         {/* Header */}
-        <header className="flex flex-col md:flex-row justify-between items-center mb-12 gap-6">
+        <header className="flex flex-col md:flex-row justify-between items-center mb-6 md:mb-12 gap-6">
           <div className="flex items-center gap-3">
             <div className="w-12 h-12 bg-gradient-to-tr from-primary to-blue-500 rounded-2xl flex items-center justify-center shadow-xl shadow-primary/20 ring-1 ring-white/10">
               <Camera className="w-7 h-7 text-white" />
@@ -231,7 +231,7 @@ export default function Home() {
           </div>
         </header>
 
-        <div className="grid lg:grid-cols-2 gap-12 items-start">
+        <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-start">
           {/* Left Column: Input */}
           <motion.div 
             initial={{ x: -20, opacity: 0 }}
@@ -239,10 +239,10 @@ export default function Home() {
             className="space-y-8"
           >
             <div className="space-y-4">
-              <h2 className="text-5xl font-black leading-[1.1] tracking-tight">
+              <h2 className="text-3xl md:text-5xl font-black leading-[1.1] tracking-tight">
                 Contenido que <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary to-blue-400">vende</span> súper rápido.
               </h2>
-              <p className="text-slate-400 text-lg leading-relaxed">
+              <p className="text-slate-400 text-base md:text-lg leading-relaxed">
                 Nuestra IA analiza tu producto, define el mejor tono y genera posts listos para Instagram.
               </p>
             </div>
@@ -365,7 +365,7 @@ export default function Home() {
           </motion.div>
 
           {/* Right Column: Results */}
-          <div className="relative min-h-[500px]">
+          <div className="relative min-h-[200px] lg:min-h-[500px]">
             <AnimatePresence mode="wait">
               {!result && !loading ? (
                 <motion.div 

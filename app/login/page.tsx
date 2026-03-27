@@ -66,7 +66,7 @@ export default function LoginPage({
                 formAction={login}
                 className="w-full py-4 bg-primary hover:bg-primary/90 text-white rounded-2xl font-black shadow-lg shadow-primary/25 transition-all active:scale-[0.98]"
               >
-                Inicar Sesión
+                Iniciar Sesión
               </button>
               <button
                 formAction={signup}
