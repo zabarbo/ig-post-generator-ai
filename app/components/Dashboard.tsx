@@ -320,14 +320,31 @@ export default function Home() {
               
               <div className="space-y-6 relative">
                 <div className="space-y-3">
-                  <label className="text-xs font-bold text-slate-500 uppercase tracking-[0.2em] ml-1">¿Qué quieres promocionar?</label>
-                  <input 
-                    value={productName}
-                    onChange={(e) => setProductName(e.target.value)}
-                    type="text" 
-                    placeholder="Ej: Mochila Urbana Waterproof"
-                    className="w-full px-6 py-5 bg-slate-950/50 border border-slate-800 rounded-[24px] focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all text-lg placeholder:text-slate-700"
-                  />
+                  <label htmlFor="product-name" className="text-xs font-bold text-slate-500 uppercase tracking-[0.2em] ml-1">¿Qué quieres promocionar?</label>
+                  <div className="relative group/input">
+                    <input
+                      id="product-name"
+                      value={productName}
+                      onChange={(e) => setProductName(e.target.value)}
+                      type="text"
+                      placeholder="Ej: Mochila Urbana Waterproof"
+                      className="w-full px-6 pr-14 py-5 bg-slate-950/50 border border-slate-800 rounded-[24px] focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all text-lg placeholder:text-slate-700"
+                    />
+                    {productName && (
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setProductName("");
+                          document.getElementById("product-name")?.focus();
+                        }}
+                        className="absolute right-4 top-1/2 -translate-y-1/2 p-2 text-slate-500 hover:text-white transition-colors bg-slate-800/0 hover:bg-slate-800/40 rounded-full active:scale-90"
+                        aria-label="Limpiar nombre del producto"
+                        title="Limpiar"
+                      >
+                        <X className="w-5 h-5" />
+                      </button>
+                    )}
+                  </div>
                 </div>
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
