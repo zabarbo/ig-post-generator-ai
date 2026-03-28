@@ -26,11 +26,10 @@ export async function login(formData: FormData) {
 
 export async function signup(formData: FormData) {
   const supabase = await createClient()
-  const origin = (await headers()).get('origin')
-
-  if (!origin) {
-    redirect('/login?message=Origin header is missing')
-  }
+  const headersList = await headers()
+  const host = headersList.get('x-forwarded-host') || headersList.get('host')
+  const protocol = headersList.get('x-forwarded-proto') || 'http'
+  const origin = `${protocol}://${host}`
 
   const data = {
     email: formData.get('email') as string,
