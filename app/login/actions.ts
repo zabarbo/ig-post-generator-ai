@@ -27,8 +27,19 @@ export async function login(formData: FormData) {
 export async function signup(formData: FormData) {
   const supabase = await createClient()
   const headersList = await headers()
-  const host = headersList.get('x-forwarded-host') || headersList.get('host')
-  const protocol = headersList.get('x-forwarded-proto') || 'http'
+
+  // Construct origin dynamically to handle different environments (local, preview, production)
+  let host = headersList.get('x-forwarded-host') || headersList.get('host') || ''
+  if (host.includes(',')) host = host.split(',')[0].trim()
+
+  let protocol = headersList.get('x-forwarded-proto') || 'https'
+  if (protocol.includes(',')) protocol = protocol.split(',')[0].trim()
+
+  // Default to http only for localhost
+  if (!headersList.get('x-forwarded-proto') && host.includes('localhost')) {
+    protocol = 'http'
+  }
+
   const origin = `${protocol}://${host}`
 
   const data = {
