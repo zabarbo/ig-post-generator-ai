@@ -1,12 +1,13 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { Sparkles, History, Copy, Check, ChevronRight, X, Layout, Zap, Flame, Star, Settings2, Calendar as CalendarIcon, Clock, BarChart3, Shirt, Footprints, Droplets, Watch, Tag, Cpu } from "lucide-react";
+import { Sparkles, History, Copy, Check, ChevronRight, X, Layout, Zap, Flame, Star, Settings2, Calendar as CalendarIcon, Clock, BarChart3, Shirt, Footprints, Droplets, Watch, Tag, Cpu, LogOut } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { createClient } from '@/utils/supabase/client';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
+import { signOut } from '../login/actions';
 
 interface Post {
   type: string;
@@ -285,6 +286,15 @@ export default function Home() {
               <History className="w-4 h-4 text-slate-400" />
               Historial
             </button>
+            <form action={signOut}>
+              <button
+                type="submit"
+                className="flex items-center gap-2 px-5 py-2.5 rounded-2xl bg-red-500/10 border border-red-500/20 hover:bg-red-500/20 transition-all text-sm font-semibold backdrop-blur-md active:scale-95 text-red-400"
+              >
+                <LogOut className="w-4 h-4" />
+                Salir
+              </button>
+            </form>
           </div>
         </header>
 

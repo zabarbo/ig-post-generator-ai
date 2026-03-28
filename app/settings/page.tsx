@@ -3,12 +3,16 @@
 import { useState, useEffect } from 'react';
 import { createClient } from '@/utils/supabase/client';
 import { motion } from 'framer-motion';
-import { Settings, Save, ArrowLeft, Target, MessageCircle, AlertTriangle } from 'lucide-react';
+import { Settings, Save, ArrowLeft, Target, MessageCircle, AlertTriangle, Lock, LogOut } from 'lucide-react';
 import Link from 'next/link';
+import { signOut } from '../login/actions';
 
 export default function SettingsPage() {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [updatingPassword, setUpdatingPassword] = useState(false);
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [profile, setProfile] = useState({
     brand_name: '',
     target_audience: '',
@@ -62,6 +66,35 @@ export default function SettingsPage() {
       }
     }
     setSaving(false);
+  };
+
+  const handleUpdatePassword = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newPassword) return;
+
+    if (newPassword.length < 6) {
+      alert('La contraseña debe tener al menos 6 caracteres.');
+      return;
+    }
+
+    if (newPassword !== confirmPassword) {
+      alert('Las contraseñas no coinciden.');
+      return;
+    }
+
+    setUpdatingPassword(true);
+    const { error } = await supabase.auth.updateUser({
+      password: newPassword
+    });
+
+    if (error) {
+      alert('Error al actualizar contraseña: ' + error.message);
+    } else {
+      alert('✅ Contraseña actualizada exitosamente.');
+      setNewPassword('');
+      setConfirmPassword('');
+    }
+    setUpdatingPassword(false);
   };
 
   if (loading) {
@@ -163,6 +196,60 @@ export default function SettingsPage() {
               placeholder="Ej: barato, liquidación, descuento, estimado cliente"
               className="w-full px-6 py-4 bg-slate-950/50 border border-red-500/30 rounded-2xl focus:outline-none focus:ring-2 focus:ring-red-500/50 text-slate-200"
             />
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-6">
+            {/* Password Change */}
+            <div className="p-8 rounded-[32px] bg-slate-900/60 border border-slate-800/50 backdrop-blur-xl">
+              <div className="flex items-center gap-3 mb-4">
+                <Lock className="w-5 h-5 text-amber-400" />
+                <h2 className="text-xl font-bold">Seguridad</h2>
+              </div>
+              <p className="text-sm text-slate-400 mb-4">Cambia tu contraseña de acceso.</p>
+              <form onSubmit={handleUpdatePassword} className="space-y-4">
+                <input
+                  type="password"
+                  value={newPassword}
+                  onChange={e => setNewPassword(e.target.value)}
+                  placeholder="Nueva contraseña (min. 6 caracteres)"
+                  className="w-full px-6 py-4 bg-slate-950/50 border border-slate-800 rounded-2xl focus:outline-none focus:ring-2 focus:ring-primary/50 text-slate-200"
+                />
+                <input
+                  type="password"
+                  value={confirmPassword}
+                  onChange={e => setConfirmPassword(e.target.value)}
+                  placeholder="Confirmar contraseña"
+                  className="w-full px-6 py-4 bg-slate-950/50 border border-slate-800 rounded-2xl focus:outline-none focus:ring-2 focus:ring-primary/50 text-slate-200"
+                />
+                <button
+                  type="submit"
+                  disabled={updatingPassword || !newPassword || !confirmPassword}
+                  className="w-full py-4 bg-slate-800 hover:bg-slate-700 disabled:opacity-50 text-white rounded-2xl font-bold transition-all"
+                >
+                  {updatingPassword ? 'Actualizando...' : 'Actualizar Contraseña'}
+                </button>
+              </form>
+            </div>
+
+            {/* Account Management */}
+            <div className="p-8 rounded-[32px] bg-slate-900/60 border border-slate-800/50 backdrop-blur-xl flex flex-col">
+              <div className="flex items-center gap-3 mb-4">
+                <Settings className="w-5 h-5 text-slate-400" />
+                <h2 className="text-xl font-bold">Cuenta</h2>
+              </div>
+              <p className="text-sm text-slate-400 mb-6">Gestiona tu sesión en este dispositivo.</p>
+              <div className="mt-auto">
+                <form action={signOut}>
+                  <button
+                    type="submit"
+                    className="w-full flex items-center justify-center gap-2 py-4 bg-red-500/10 hover:bg-red-500/20 text-red-400 rounded-2xl font-bold transition-all border border-red-500/20"
+                  >
+                    <LogOut className="w-4 h-4" />
+                    Cerrar Sesión
+                  </button>
+                </form>
+              </div>
+            </div>
           </div>
 
         </motion.div>
