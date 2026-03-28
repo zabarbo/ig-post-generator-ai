@@ -34,15 +34,19 @@ export async function POST(req: Request) {
     const requestedTone = tone || "Atractivo y vendedor";
     const requestedObjective = objective || "Venta directa";
 
-    // 1) Fetch Brand Context from Supabase
+    // 1) Auth check & Fetch Brand Context from Supabase
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
-    let profileContext = "";
+    const { data: { user }, error: authError } = await supabase.auth.getUser();
 
-    if (user) {
-        const { data: profile } = await supabase.from('profiles').select('*').eq('id', user.id).single();
-        if (profile) {
-            profileContext = `
+    if (authError || !user) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    let profileContext = "";
+    const { data: profile } = await supabase.from('profiles').select('*').eq('id', user.id).single();
+
+    if (profile) {
+        profileContext = `
 --- CONTEXTO DE MARCA OBLIGATORIO ---
 Nombre de la marca: ${profile.brand_name || 'No especificado'}
 Público objetivo: ${profile.target_audience || 'No especificado'}
@@ -51,7 +55,6 @@ Palabras prohibidas (NUNCA usar): ${profile.forbidden_words || 'Ninguna'}
 --------------------------------------
 Asegúrate de adaptar TODO el contenido generado a este contexto de marca de manera estricta. ¡Especialmente el tono y omitir las palabras prohibidas!
 `;
-        }
     }
 
     const prompt = `Actúa como un experto en marketing digital y copywriter para Instagram.
